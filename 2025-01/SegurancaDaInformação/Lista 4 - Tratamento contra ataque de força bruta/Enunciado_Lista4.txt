@@ -1,0 +1,24 @@
+Lista 04 - Tratamento contra ataque de força bruta
+Este exercício consiste em adaptar uma aplicação para que ela não seja suscetível ao ataque de força bruta. 
+
+A aplicação contém uma API de autenticação, que permite que usuários tentem autenticar-se indefinidamente sem restrições. Isso a torna vulnerável a ataques de força bruta, onde um invasor pode testar milhares de senhas até encontrar a correta.
+
+Seu objetivo é modificar a aplicação para proteger contra esse tipo de ataque, implementando pelo menos duas das seguintes técnicas:
+
+Bloqueio Temporário de Contas: Após 3 tentativas falhas consecutivas, bloquear o login do usuário por 5 minutos.
+Atraso Progressivo: Aumentar o tempo de resposta a cada tentativa falha (exemplo: 2s, 4s, 8s...).
+Registro de Tentativas por IP: Restringir múltiplas tentativas vindas do mesmo endereço IP.
+Autenticação de Dois Fatores (2FA): Após o login, exigir um código enviado por e-mail.
+Ao submeter sua solução, descreva quais técnicas foram desenvolvidas.
+
+Obs:
+
+A aplicação está em python. Instale os seguintes pacotes: fastapi, sqlalchemy e uvicorn.
+
+Coloque a aplicação no ar com o comando:
+
+uvicorn servico:app --host 0.0.0.0 --port 8000 --reload
+
+-------------------------------
+Os arquivos com o exercicio resolvido se encontram na pasta Resolução;
+Os arquivos originais do professor se encontram na pasta Original;
