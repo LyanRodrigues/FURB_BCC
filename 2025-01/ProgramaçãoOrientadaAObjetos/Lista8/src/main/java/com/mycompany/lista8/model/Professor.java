@@ -11,6 +11,15 @@ package com.mycompany.lista8.model;
 public class Professor {
     private String nome;
     private String email;
+    private Titulacao titulacao;
+
+    public Titulacao getTitulacao() {
+        return titulacao;
+    }
+
+    public void setTitulacao(Titulacao titulacao) {
+        this.titulacao = titulacao;
+    }
 
     public Professor(String nome, String email) {
         setNome(nome);

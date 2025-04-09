@@ -9,5 +9,5 @@ package com.mycompany.lista8.model;
  * @author liandrar
  */
 public enum Turno {
-    
+    MATUTINO, VESPERTINO, NOTURNO
 }

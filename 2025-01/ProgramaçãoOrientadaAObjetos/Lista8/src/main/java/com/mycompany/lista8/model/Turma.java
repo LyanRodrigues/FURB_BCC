@@ -11,6 +11,7 @@ import java.util.ArrayList;
  * @author liandrar
  */
 public class Turma {
+
     private String disciplina;
     Professor professor;
     Turno turno;
@@ -22,20 +23,43 @@ public class Turma {
         setTurno(turno);
         setAlunos(alunos);
     }
-       
-    public void incluirAluno(Aluno aluno){
-        //to do
+
+    public Turma() {
     }
-    
-    public void removerAluno(Aluno aluno){
-        //to do
+
+    public void incluirAluno(Aluno aluno) {
+        if (aluno == null) {
+            throw new IllegalArgumentException("aluno nao pode ser nulo");
+        }
+        alunos.add(aluno);
     }
-    
-    public Aluno obterAlunoMelhorNotaEnem(){
-        //to do
-        return null;
+
+    public void removerAluno(Aluno aluno) {
+        if (aluno == null) {
+            throw new IllegalArgumentException("aluno nao pode ser nulo");
+        }
+        alunos.remove(aluno);
     }
-    
+
+    public Aluno obterAlunoMelhorNotaEnem() {
+        double notaEnem = 0;
+        int indiceMelhorAluno = -1; // Inicializa com valor inválido
+
+        for (int i = 0; i < alunos.size(); i++) {
+            if (alunos.get(i).getNotaEnem() > notaEnem) {
+                notaEnem = alunos.get(i).getNotaEnem();
+                indiceMelhorAluno = i; // Armazena o índice do melhor aluno
+            }
+        }
+
+        // Garantir que a lista não está vazia e retornar o aluno com a melhor nota
+        if (indiceMelhorAluno != -1) {
+            return alunos.get(indiceMelhorAluno);
+        }
+
+        return null; // Retorna null se a lista estiver vazia
+    }
+
     public String getDisciplina() {
         return disciplina;
     }
@@ -67,7 +91,5 @@ public class Turma {
     public void setAlunos(ArrayList<Aluno> alunos) {
         this.alunos = alunos;
     }
-    
-    
-    
+
 }
