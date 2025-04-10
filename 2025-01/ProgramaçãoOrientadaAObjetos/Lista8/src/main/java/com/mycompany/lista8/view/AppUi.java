@@ -8,6 +8,9 @@ import com.mycompany.lista8.model.Professor;
 import com.mycompany.lista8.model.Titulacao;
 import com.mycompany.lista8.model.Turma;
 import com.mycompany.lista8.model.Turno;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class AppUi extends javax.swing.JFrame {
 
-    Turma turma = new Turma();
-    Professor professor = null;
+    private List<Turma> listaTurmas = new ArrayList<>();
+    private Turma turma = null;
+
+    Professor professor;
+
     /**
      * Creates new form AppUi
      */
@@ -224,69 +230,103 @@ public class AppUi extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setDisciplina() {
+    public boolean setDisciplina() {
         String disciplina = jTextFieldDisciplina.getText();
         if (disciplina.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "informe uma disciplina valida", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
         } else {
             turma.setDisciplina(disciplina);
+            return true;
         }
     }
 
-    public void setTurno() {
+    public boolean setTurno() {
         if (jRadioButtonMatutino.isSelected()) {
             turma.setTurno(Turno.MATUTINO);
+            return true;
         } else if (jRadioButtonVespertino.isSelected()) {
             turma.setTurno(Turno.VESPERTINO);
+            return true;
         } else if (jRadioButtonNoturno.isSelected()) {
             turma.setTurno(Turno.NOTURNO);
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Escolha um turno valido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 
-    public void setProfessor() {
+    public boolean setProfessor() {
         String nome, email;
 
         if (jTextFieldNome.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nome de professor invalido", "Erro", JOptionPane.ERROR_MESSAGE);
-        } 
+            JOptionPane.showMessageDialog(null, "Nome de professor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
         if (jTextFieldEmail.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Email de professor invalido", "Erro", JOptionPane.ERROR_MESSAGE);
-        } 
-        else {
+            JOptionPane.showMessageDialog(null, "Email de professor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
             nome = jTextFieldNome.getText();
             email = jTextFieldEmail.getText();
 
-            professor.setEmail(email);
-            professor.setNome(nome);
+            professor = new Professor(nome, email);
+            turma.setProfessor(professor);
+            return true;
         }
     }
-    
-    public void setTitulacao() {
+
+    public boolean setTitulacao() {
+        if (professor == null) {
+            JOptionPane.showMessageDialog(null, "Escolha um professor valido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         if (jRadioButtonDoutorado.isSelected()) {
             professor.setTitulacao(Titulacao.DOUTORADO);
+            return true;
         } else if (jRadioButtonGraduacao.isSelected()) {
             professor.setTitulacao(Titulacao.GRADUACAO);
+            return true;
         } else if (jRadioButtonMestrado.isSelected()) {
             professor.setTitulacao(Titulacao.MESTRADO);
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Escolha um titulo valido", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        return false;
+    }
+    
+    public Turma getTurma(){
+        return turma;
     }
 
     private void jButtonIncluirAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirAlunoActionPerformed
-        this.setDisciplina();
-        this.setTurno();
-        this.setProfessor();
-        this.setTitulacao();
+        turma = new Turma();
 
+        if (!setDisciplina()) {
+            return;
+        }
+        if (!setTurno()) {
+            return;
+        }
+        if (!setProfessor()) {
+            return;
+        }
+        if (!setTitulacao()) {
+            return;
+        }
+
+        listaTurmas.add(turma); 
+
+        JDialog alunoUi = new AlunoUi(this, true);
+        alunoUi.setVisible(true);
     }//GEN-LAST:event_jButtonIncluirAlunoActionPerformed
 
     private void jButtonMostrarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarDadosActionPerformed
-        String texto = " ";
-        texto = "Disciplina: " + turma.getDisciplina() + "\n";
-
+        JDialog mostraDados = new MostrarDadosUi(this, true);
+        mostraDados.setVisible(true);
     }//GEN-LAST:event_jButtonMostrarDadosActionPerformed
 
     /**
