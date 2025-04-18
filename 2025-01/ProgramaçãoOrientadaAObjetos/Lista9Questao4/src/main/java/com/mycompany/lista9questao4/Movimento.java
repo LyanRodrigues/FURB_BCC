@@ -29,11 +29,11 @@ public class Movimento {
     }
 
     public LocalDate getData() {
-        return LocalDate.now();
+        return this.data;
     }
 
     public LocalTime getHora() {
-        return LocalTime.now();
+        return this.hora;
     }
 
     public TipoMovimento getTipoMovimento() {
