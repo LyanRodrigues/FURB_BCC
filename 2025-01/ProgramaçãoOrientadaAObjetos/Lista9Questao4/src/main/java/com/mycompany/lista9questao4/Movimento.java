@@ -18,6 +18,8 @@ public class Movimento {
     private TipoMovimento tipoMovimento;
 
     public Movimento(double valor, TipoMovimento tipoMovimento) {
+        this.data = LocalDate.now();
+        this.hora = LocalTime.now();
         this.valor = valor;
         this.tipoMovimento = tipoMovimento;
     }
