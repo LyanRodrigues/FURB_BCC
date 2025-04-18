@@ -4,10 +4,8 @@
  */
 package com.mycompany.lista8.view;
 
-import com.mycompany.lista8.model.Professor;
-import com.mycompany.lista8.model.Titulacao;
-import com.mycompany.lista8.model.Turma;
-import com.mycompany.lista8.model.Turno;
+import classes.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
@@ -20,15 +18,15 @@ import javax.swing.JOptionPane;
 public class AppUi extends javax.swing.JFrame {
 
     private List<Turma> listaTurmas = new ArrayList<>();
-    private Turma turma = null;
-
-    Professor professor;
+    private Turma turma = new Turma();
 
     /**
      * Creates new form AppUi
      */
     public AppUi() {
         initComponents();
+        setTitle("AppUi"); // Define o título da janela
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -258,43 +256,50 @@ public class AppUi extends javax.swing.JFrame {
     }
 
     public boolean setProfessor() {
+        Professor professor;
         String nome, email;
 
         if (jTextFieldNome.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Nome de professor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+
         if (jTextFieldEmail.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Email de professor inválido", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
-        } else {
-            nome = jTextFieldNome.getText();
-            email = jTextFieldEmail.getText();
-
-            professor = new Professor(nome, email);
-            turma.setProfessor(professor);
-            return true;
         }
+
+        nome = jTextFieldNome.getText();
+        email = jTextFieldEmail.getText();
+
+        professor = new Professor();
+        professor.setNome(nome);
+        professor.setEmail(email);
+
+        turma.setProfessor(professor);
+
+        return true;
     }
 
     public boolean setTitulacao() {
-        if (professor == null) {
+        if (turma.getProfessor() == null) {
             JOptionPane.showMessageDialog(null, "Escolha um professor valido", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
 
         if (jRadioButtonDoutorado.isSelected()) {
-            professor.setTitulacao(Titulacao.DOUTORADO);
+            turma.getProfessor().setTitulacao(Titulacao.DOUTORADO);
             return true;
         } else if (jRadioButtonGraduacao.isSelected()) {
-            professor.setTitulacao(Titulacao.GRADUACAO);
+            turma.getProfessor().setTitulacao(Titulacao.GRADUACAO);
             return true;
         } else if (jRadioButtonMestrado.isSelected()) {
-            professor.setTitulacao(Titulacao.MESTRADO);
+            turma.getProfessor().setTitulacao(Titulacao.MESTRADO);
             return true;
         } else {
             JOptionPane.showMessageDialog(null, "Escolha um titulo valido", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+
         return false;
     }
     
@@ -303,29 +308,28 @@ public class AppUi extends javax.swing.JFrame {
     }
 
     private void jButtonIncluirAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirAlunoActionPerformed
-        turma = new Turma();
+        if (!checagem())
+            return;
 
-        if (!setDisciplina()) {
-            return;
-        }
-        if (!setTurno()) {
-            return;
-        }
-        if (!setProfessor()) {
-            return;
-        }
-        if (!setTitulacao()) {
-            return;
+        if ("easter egg".equalsIgnoreCase(jTextFieldDisciplina.getText().trim())) {
+            String videoPath = "C:\\Users\\Windows\\Downloads\\ExerciciosPOO8-master\\src\\view\\teste.mp4"; // Caminho do vídeo
+            Teste.abrirVideo(videoPath);
         }
 
-        listaTurmas.add(turma); 
-
-        JDialog alunoUi = new AlunoUi(this, true);
+        AlunoUi alunoUi = new AlunoUi(this, true);
         alunoUi.setVisible(true);
+
+        Aluno aluno = alunoUi.getAluno(); // Obtém o aluno criado na janela AlunoUi
+        if (aluno != null) {
+            turma.getAlunos().add(aluno); // Adiciona o aluno à lista de alunos da turma
+            JOptionPane.showMessageDialog(this, "Aluno incluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonIncluirAlunoActionPerformed
 
     private void jButtonMostrarDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMostrarDadosActionPerformed
-        JDialog mostraDados = new MostrarDadosUi(this, true);
+        if (!checagem())
+            return;
+        JDialog mostraDados = new MostrarDadosUi(this, true, getDadosTurma());
         mostraDados.setVisible(true);
     }//GEN-LAST:event_jButtonMostrarDadosActionPerformed
 
@@ -362,6 +366,49 @@ public class AppUi extends javax.swing.JFrame {
                 new AppUi().setVisible(true);
             }
         });
+    }
+
+    public String getDadosTurma() {
+        StringBuilder dados = new StringBuilder();
+        dados.append("Disciplina: ").append(turma.getDisciplina()).append("\n");
+        dados.append("Turno: ").append(turma.getTurno()).append("\n");
+        dados.append("--------------------------------------------------\n");
+        dados.append("Professor: ").append(turma.getProfessor().getNome()).append("\n");
+        dados.append("Email: ").append(turma.getProfessor().getEmail()).append("\n");
+        dados.append("Titulação: ").append(turma.getProfessor().getTitulacao()).append("\n");
+        dados.append("--------------------------------------------------\n");
+        if (turma.getAlunos() != null) {
+            if (turma.getAlunos().isEmpty()) {
+                dados.append("Nenhum aluno cadastrado");
+            } else {
+                dados.append("Todal de Alunos: ").append(turma.getAlunos().size()).append("\n");
+                for (Aluno aluno : turma.getAlunos()) {
+                    dados.append(aluno.getNome()).append(" ").append(aluno.getMatricula()).append(" - Nota ENEM: ").append(aluno.getNotaEnem()).append("\n");
+                }
+                Aluno melhorAluno = turma.obterAlunoMelhorNotaEnem();
+                dados.append("Aluno(a) com melhor nota: ").append(melhorAluno.getNome()).append(" ").append(melhorAluno.getMatricula()).append(" - ").append(melhorAluno.getNotaEnem());
+            }
+        } else {
+            dados.append("Nenhum aluno cadastrado.\n");
+        }
+        return dados.toString();
+    }
+
+    public boolean checagem() {
+        if (!setDisciplina()) {
+            return false;
+        }
+        if (!setTurno()) {
+            return false;
+        }
+        if (!setProfessor()) {
+            return false;
+        }
+        if (!setTitulacao()) {
+            return false;
+        }
+
+        return true;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

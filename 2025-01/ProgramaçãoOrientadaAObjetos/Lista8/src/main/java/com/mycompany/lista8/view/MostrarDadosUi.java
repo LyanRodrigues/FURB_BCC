@@ -13,9 +13,17 @@ public class MostrarDadosUi extends javax.swing.JDialog {
     /**
      * Creates new form MostrarDadosUi
      */
-    public MostrarDadosUi(java.awt.Frame parent, boolean modal) {
+    public MostrarDadosUi(java.awt.Frame parent, boolean modal, String texto) {
         super(parent, modal);
         initComponents();
+        // Adiciona o ActionListener ao botão "Fechar"
+        jButtonFechar.addActionListener(e -> dispose());
+        // Torna o jTextAreaMostraDados não editável
+        jTextAreaMostraDados.setEditable(false);
+        // Define o texto fornecido no construtor
+        jTextAreaMostraDados.setText(texto);
+        setLocationRelativeTo(null);
+        setTitle("MostrarDadosUi"); // Define o título da janela
     }
 
     /**
@@ -98,7 +106,7 @@ public class MostrarDadosUi extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MostrarDadosUi dialog = new MostrarDadosUi(new javax.swing.JFrame(), true);
+                MostrarDadosUi dialog = new MostrarDadosUi(new javax.swing.JFrame(), true, "Teste");
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

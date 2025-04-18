@@ -80,7 +80,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Turma"/>
+            <TitledBorder title="classes.Turma"/>
           </Border>
         </Property>
       </Properties>
@@ -138,7 +138,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Turno:"/>
+            <Property name="text" type="java.lang.String" value="classes.Turno:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldDisciplina">
@@ -173,7 +173,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Professor"/>
+            <TitledBorder title="classes.Professor"/>
           </Border>
         </Property>
       </Properties>
@@ -283,7 +283,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButtonIncluirAluno">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Incluir Aluno"/>
+        <Property name="text" type="java.lang.String" value="Incluir classes.Aluno"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonIncluirAlunoActionPerformed"/>
@@ -291,7 +291,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButtonMostrarDados">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Listar Dados da Turma"/>
+        <Property name="text" type="java.lang.String" value="Listar Dados da classes.Turma"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonMostrarDadosActionPerformed"/>

@@ -4,11 +4,17 @@
  */
 package com.mycompany.lista8.view;
 
+import classes.Aluno;
+
+import javax.swing.*;
+
 /**
  *
  * @author liandrar
  */
 public class AlunoUi extends javax.swing.JDialog {
+
+    Aluno aluno;
 
     /**
      * Creates new form AlunoUi
@@ -16,6 +22,22 @@ public class AlunoUi extends javax.swing.JDialog {
     public AlunoUi(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        setTitle("AlunoUi"); // Define o título da janela
+
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispose(); // Fecha a janela atual
+            }
+        });
+
+        jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                if (setAluno()) { // Verifica se os dados são válidos
+                    dispose(); // Fecha a janela
+                }
+            }
+        });
     }
 
     /**
@@ -39,9 +61,9 @@ public class AlunoUi extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do Aluno"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados do aluno"));
 
-        jLabel1.setText("Nome do Aluno:");
+        jLabel1.setText("Nome do aluno:");
 
         jLabel2.setText("Numero da matricula:");
 
@@ -160,6 +182,46 @@ public class AlunoUi extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+
+    public boolean setAluno() {
+        String nome;
+        int matricula;
+        double notaEnem;
+
+        if (jTextFieldNomeAluno.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Nome de aluno inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (jTextFieldMatricula.getText().trim().isEmpty() || !jTextFieldMatricula.getText().matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Número de matrícula inválido", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (jTextField3.getText().trim().isEmpty() || !jTextField3.getText().matches("\\d+(\\.\\d+)?")) {
+            JOptionPane.showMessageDialog(null, "Nota ENEM inválida", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        nome = jTextFieldNomeAluno.getText();
+        matricula = Integer.parseInt(jTextFieldMatricula.getText());
+        notaEnem = Double.parseDouble(jTextField3.getText());
+
+        if (notaEnem < 0 || notaEnem > 10) {
+            JOptionPane.showMessageDialog(null, "Nota ENEM deve estar entre 0 e 10", "Erro", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        aluno = new Aluno();
+
+        aluno.setNome(nome);
+        aluno.setMatricula(matricula);
+        aluno.setNotaEnem(notaEnem);
+
+        return true;
+    }
+
+    public Aluno getAluno() {
+        return aluno; // Retorna o objeto Aluno
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
