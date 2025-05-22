@@ -1,0 +1,5 @@
+Um texto qualquer
+Outra linha
+42
+3.14
+Um texto com acentuação
