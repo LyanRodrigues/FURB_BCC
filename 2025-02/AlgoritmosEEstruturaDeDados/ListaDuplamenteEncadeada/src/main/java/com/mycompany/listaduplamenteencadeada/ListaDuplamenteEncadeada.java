@@ -59,24 +59,45 @@ public class ListaDuplamenteEncadeada<T> {
     }
 
     public void exibirOrdemInversa() {
-        NoListaDupla p = primeiro;
-        while (p.getProximo() != null){
-            p = p.getProximo();
+        NoListaDupla<T> atual = primeiro;
+        if (atual == null) {
+            return;
         }
-        
-        while (p.getAnterior() != null){
-            System.out.println("[ "+ p + " ,");
+
+        while (atual.getProximo() != null) {
+            atual = atual.getProximo();
         }
-        
-        
+
+        while (atual != null) {
+            System.out.print(atual.getInfo() + " ");
+            atual = atual.getAnterior();
+        }
+        System.out.println();
+
     }
 
     public void liberar() {
-
+        NoListaDupla<T> atual = primeiro;
+        while (atual != null) {
+            NoListaDupla<T> proximo = atual.getProximo();
+            atual.setAnterior(null);
+            atual.setProximo(null);
+            atual = proximo;
+        }
+        primeiro = null;
     }
 
     public String toString() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+        NoListaDupla<T> atual = primeiro;
+        while (atual != null) {
+            sb.append(atual.getInfo());
+            if (atual.getProximo() != null) {
+                sb.append(", ");
+            }
+            atual = atual.getProximo();
+        }
+        return sb.toString();
     }
 
 }
